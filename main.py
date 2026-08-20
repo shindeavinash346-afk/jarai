@@ -32,4 +32,4 @@ def speak(text):
                                                                                                                         speak("Going offline, Boss.")
                                                                                                                                     break
                                                                                                                                             elif command != "":
-                                                                                                                                                        speak(f"Processing your request: {command}")
+                                                                                                                                                        speak(f"Processing your request: {command}")⁹
