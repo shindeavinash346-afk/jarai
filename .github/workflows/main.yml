@@ -6,19 +6,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
+  build-android:
+    name: Build for Android
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Build with Buildozer Action
-      uses: ArtemisSkat/buildozer-action@v1.2
-      with:
-        command: buildozer -v android debug
-        repository_root: .
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          repository_root: .
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: JARVIS-APK
-        path: bin/*.apk
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: JARVIS-APK
+          path: ${{ steps.buildozer.outputs.filename }}
