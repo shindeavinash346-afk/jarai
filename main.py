@@ -1,4 +1,3 @@
-import base64
 import json
 import urllib.request
 from kivy.app import App
@@ -8,14 +7,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.clock import Clock
 
-# Encoded API Key to prevent GitHub scanner block & pass directly to APK
-_K = "QVEuQWI4Uk42SVB2TFEyN0Q5QVBkT0VVbDNoQlJ5MDkxTG1HcEJoRi0xMTB0TnB3aWVXUQ=="
-
-def get_key():
-    try:
-        return base64.b64decode(_K).decode('utf-8')
-    except Exception:
-        return ""
+RAW_KEY = "AQ.Ab8RN6IthkmFUN2TEUDHeVp0jcgRqEyS_ZSzZwG9krmx2m9QOQ"
 
 class JarvisUI(BoxLayout):
     def __init__(self, **kwargs):
@@ -62,8 +54,7 @@ class JarvisUI(BoxLayout):
 
     def get_gemini_response(self, query):
         try:
-            api_key = get_key()
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={RAW_KEY}"
             prompt_text = f"You are JARVIS, an advanced AI assistant. Keep responses brief (1-2 sentences max) and address the user as Boss. Query: {query}"
             
             payload = {
@@ -92,3 +83,4 @@ class JarvisApp(App):
 
 if __name__ == '__main__':
     JarvisApp().run()
+    
