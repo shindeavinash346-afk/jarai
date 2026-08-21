@@ -1,4 +1,5 @@
 import json
+import ssl
 import urllib.request
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -69,7 +70,10 @@ class JarvisUI(BoxLayout):
                 headers={'Content-Type': 'application/json'}
             )
             
-            with urllib.request.urlopen(req, timeout=10) as response:
+            # Bypass SSL certificate verification for Android
+            context = ssl._create_unverified_context()
+            
+            with urllib.request.urlopen(req, timeout=10, context=context) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 reply = result['candidates'][0]['content']['parts'][0]['text']
                 self.status_label.text = f"JARVIS: {reply}"
@@ -83,4 +87,3 @@ class JarvisApp(App):
 
 if __name__ == '__main__':
     JarvisApp().run()
-    
